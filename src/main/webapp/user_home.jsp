@@ -1,7 +1,19 @@
 <%@ include file="user_header.jsp" %>
-<%@ include file="menu.jsp" %>
+<%@ include file="user_menu.jsp" %>
 <html>
 <head>
+
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+
+    // Redirect to login if session is invalid
+    if (session.getAttribute("userID") == null) {
+        response.sendRedirect("login.jsp");
+    }
+%>
+
     <title>User Home</title>
     <style>
         .container {
@@ -23,6 +35,24 @@
         button:hover {
             background: darkblue;
         }
+        
+        
+#backButton {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background-color: crimson;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#backButton:hover {
+  background-color: darkred;
+}
     </style>
 </head>
 <body>
@@ -33,6 +63,8 @@
         <a href="User_FlightServlet"><button>View Flight Details</button></a>
         <a href="booking.jsp"><button>Book a Ticket</button></a>
     </div>
+     <button id="backButton" onclick="history.back()" 	>Back</button>
+	
 </body>
 <%@ include file="user_footer.jsp" %>
 </html>

@@ -1,11 +1,12 @@
+<%@ page session="true" %>
 <html>
 <head>
     <title>Header</title>
 </head>
 <body>
-    <div>
-        <a href="profile.jsp">Profile</a> |
-        <a href="LogoutPageServlet">Logout</a>
+    <div style="background: teal; color: white; padding: 10px;">
+        <h2>Welcome, <%= (session.getAttribute("userName") != null) ? session.getAttribute("userName") : "Guest" %>!</h2>
+        
     </div>
     <hr>
 </body>

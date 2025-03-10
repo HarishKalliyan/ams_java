@@ -3,6 +3,18 @@
 <head>
     <title>Register</title>
     <link rel="stylesheet" type="text/css" href="register.css">
+    <%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+%>
+    
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <script>
+    window.onload = function () {
+        document.forms[0].reset(); // Clears the form fields
+    };
+	</script>
 </head>
 <body>
     <div class="register-container">

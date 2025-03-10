@@ -1,6 +1,6 @@
 <%@ page import="java.util.List, com.airlines.beans.Flight, com.airlines.dao.FlightDAO" %>
 <%@ include file="user_header.jsp" %>
-<%@ include file="menu.jsp" %>
+<%@ include file="user_menu.jsp" %>
 <html>
 <head>
     <title>Book a Ticket</title>
@@ -29,6 +29,24 @@
         button:hover {
             background: darkblue;
         }
+        
+        
+#backButton {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background-color: crimson;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#backButton:hover {
+  background-color: darkred;
+}
     </style>
 </head>
 <body>
@@ -68,6 +86,8 @@
             <button type="submit">Book Ticket</button>
         </form>
     </div>
+    <button id="backButton" onclick="history.back()" 	>Back</button>
+	
 </body>
 <%@ include file="user_footer.jsp" %>
 </html>

@@ -17,10 +17,16 @@ public class LogoutPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Get existing session without creating a new one
+        HttpSession session = request.getSession(false);
         if (session != null) {
-            session.invalidate(); // Remove user session
+            session.invalidate(); // Destroy session
         }
-        response.sendRedirect("login.jsp"); // Redirect to login page
+
+        // Prevent caching so user cannot go back
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+
+        response.sendRedirect("login.jsp");
     }
 }

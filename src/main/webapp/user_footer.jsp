@@ -1,12 +1,24 @@
 <html>
 <head>
     <title>Footer</title>
+    <style>
+        /* Footer Styling */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 0px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <hr>
-    <p style="text-align: center;">Contact: support@airlines.com | Follow us: @AirlineService</p>
-    <div style="text-align: center;">
-        <button onclick="history.back()" style="background: red; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Back</button>
+    <div class="footer">
+        <p>Contact: support@airlines.com | Follow us: @AirlineService</p>
     </div>
 </body>
 </html>

@@ -2,17 +2,30 @@
 <html>
 <head>
     <title>Login</title>
+    
+    <%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+%>
+    
     <link rel="stylesheet" type="text/css" href="login.css">
+    <script>
+    window.onload = function () {
+        document.forms[0].reset(); // Clears the form fields
+    };
+	</script>
+    
+    <script>
+        // Prevent back navigation after logout
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
 </head>
 <body>
     <div class="login-container">
-        <h2>Login Page</h2>
-        <% 
-            String errorMessage = request.getParameter("error");
-            if (errorMessage != null) { 
-        %>
-            <p id="error-message" style="color: red;"><%= errorMessage %></p>
-        <% } %>
 
         <form action="LoginPageServlet" method="post">
             <label for="userID">User ID:</label>
@@ -23,7 +36,7 @@
             <input type="password" id="password" name="password" required>
             <br>
 
-            <button type="submit">Login</button>
+            <button type="submit" >Login</button>
         </form>
 
         <p>Don't have an account? <a href="register.jsp">Register Here</a></p>

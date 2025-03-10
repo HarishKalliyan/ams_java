@@ -20,15 +20,27 @@
         h1 {
             color: #721c24;
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
+        button {
+            background-color: dodgerblue;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
         }
-        a:hover {
-            text-decoration: underline;
+        button:hover {
+            background-color: darkblue;
         }
     </style>
+    <script>
+        // Prevent back button from working
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
 </head>
 <body>
     <div class="container">
@@ -45,7 +57,7 @@
             <p><strong>Message:</strong> <%= (errorMessage != null) ? errorMessage : "Unexpected error" %></p>
         <% } %>
 
-        <p><a href="user_home.jsp">Go to Home</a></p>
+        <button onclick="window.location.href='login.jsp'">Go to Login</button>
     </div>
 </body>
 </html>

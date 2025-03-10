@@ -1,16 +1,19 @@
-<%@ include file="header.jsp" %>
 <%@ page import="com.airlines.beans.User" %>
-<%@ page session="true" %>
+<%@ include file="header.jsp" %>
+<%
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 <html>
 <head>
     <title>Profile</title>
-    <link rel="stylesheet" type="text/css" href="profile.css">
 </head>
 <body>
     <div class="profile-container">
-        <h2>Admin Profile</h2>
-        
-        <% User user = (User) session.getAttribute("user"); %>
+        <h2> Profile</h2>
 
         <form action="EditProfileServlet" method="post">
             <div class="input-group">
@@ -35,13 +38,6 @@
 
             <button type="submit">Save Changes</button>
         </form>
-        
-        <% String message = request.getParameter("message"); 
-           if (message != null) { %>
-           <p style="color: green;"><%= message %></p>
-        <% } %>
     </div>
-
 </body>
-<%@ include file="footer.jsp" %>
 </html>

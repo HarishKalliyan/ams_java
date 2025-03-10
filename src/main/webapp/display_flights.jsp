@@ -1,46 +1,11 @@
 <%@ page import="java.util.List, com.airlines.beans.Flight" %>
+
 <%@ include file="header.jsp" %>
+<%@ include file="admin_menu.jsp"%>
 <html>
 <head>
     <title>Flight Details</title>
-    <link rel="stylesheet" type="text/css" href="home.css">
-    <style>
-        /* Table Styling */
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background: white;
-            color: black;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: teal;
-            color: white;
-            font-weight: bold;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* No Data Message */
-        .no-data {
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="trips.css">
 </head>
 <body>
     <h2>Flight Details</h2>
@@ -55,8 +20,8 @@
         if (flights != null && !flights.isEmpty()) {
     %>
 
-    <table>
-        <tr>
+    <table style="margin-bottom: 130px">
+        <tr id="header-back" style="background: #007bff;">
             <th>Flight ID</th>
             <th>Carrier ID</th>
             <th>Origin</th>
@@ -74,7 +39,7 @@
             <td><%= flight.getCarrierID() %></td>
             <td><%= flight.getOrigin() %></td>
             <td><%= flight.getDestination() %></td>
-            <td><%= flight.getAirFare() %></td>
+            <td>$<%= flight.getAirFare() %></td>
             <td><%= flight.getEconomySeats() %></td>
             <td><%= flight.getBusinessSeats() %></td>
             <td><%= flight.getExecutiveSeats() %></td>
@@ -88,6 +53,10 @@
         <p class="no-data">No flight details available.</p>
     <% } %>
 
+    <button id="backButton" onclick="history.back()" 	>Back</button>
+
 </body>
-<%@ include file="footer.jsp" %>
+
+
+<%@ include file="footer.jsp"%>
 </html>

@@ -11,76 +11,76 @@ import com.airlines.beans.Booking;
 
 public class BookingDAO {
 
-    public static int calculateBookingAmount(int flightID, String seatCategory, int noOfSeats) {
-        int basePrice = 0;
-        String sql = "SELECT AirFare FROM Flights WHERE FlightID = ?";
-        
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, flightID);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                basePrice = rs.getInt("AirFare");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	public static int calculateBookingAmount(int flightID, String seatCategory, int noOfSeats) {
+		int basePrice = 0;
+		String sql = "SELECT AirFare FROM Flights WHERE FlightID = ?";
 
-        int multiplier = switch (seatCategory) {
-            case "Executive" -> 5;  // 5x Economy Price
-            case "Business" -> 2;   // 2x Economy Price
-            default -> 1;           // Economy Price
-        };
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setInt(1, flightID);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				basePrice = rs.getInt("AirFare");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        return basePrice * multiplier * noOfSeats;
-    }
+		int multiplier = switch (seatCategory) {
+		case "Executive" -> 5; // 5x Economy Price
+		case "Business" -> 2; // 2x Economy Price
+		default -> 1; // Economy Price
+		};
 
-    public static boolean insertBooking(int flightID, int userID, int noOfSeats, String seatCategory, String dateOfTravel, int bookingAmount) {
-        String sql = "INSERT INTO Booking (FlightID, UserID, NoOfSeats, SeatCategory, DateOfTravel, BookingStatus, BookingAmount) " +
-                     "VALUES (?, ?, ?, ?, ?, 'Booked', ?)";
+		return basePrice * multiplier * noOfSeats;
+	}
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, flightID);
-            pstmt.setInt(2, userID);
-            pstmt.setInt(3, noOfSeats);
-            pstmt.setString(4, seatCategory);
-            pstmt.setString(5, dateOfTravel);
-            pstmt.setInt(6, bookingAmount);
+	public static boolean insertBooking(int flightID, int userID, int noOfSeats, String seatCategory,
+			String dateOfTravel, int bookingAmount) {
+		if (flightID <= 0 || userID <= 0 || noOfSeats <= 0 || bookingAmount <= 0 || seatCategory == null
+				|| seatCategory.isEmpty()) {
+			System.out.println("Invalid booking data. Booking failed.");
+			return false; // Prevents inserting invalid data
+		}
 
-            int rowsInserted = pstmt.executeUpdate();
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+		String sql = "INSERT INTO Booking (FlightID, UserID, NoOfSeats, SeatCategory, DateOfTravel, BookingStatus, BookingAmount) "
+				+ "VALUES (?, ?, ?, ?, ?, 'Booked', ?)";
 
-    public static List<Booking> getBookingsByUser(int userID) {
-        List<Booking> bookings = new ArrayList<>();
-        String sql = "SELECT * FROM Booking WHERE UserID = ?";
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setInt(1, flightID);
+			pstmt.setInt(2, userID);
+			pstmt.setInt(3, noOfSeats);
+			pstmt.setString(4, seatCategory);
+			pstmt.setString(5, dateOfTravel);
+			pstmt.setInt(6, bookingAmount);
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userID);
-            ResultSet rs = pstmt.executeQuery();
+			int rowsInserted = pstmt.executeUpdate();
+			return rowsInserted > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
-            while (rs.next()) {
-                Booking booking = new Booking(
-                        rs.getInt("BookingID"),
-                        rs.getInt("FlightID"),
-                        rs.getInt("UserID"),
-                        rs.getInt("NoOfSeats"),
-                        rs.getString("SeatCategory"),
-                        rs.getString("DateOfTravel"),
-                        rs.getString("BookingStatus"),
-                        rs.getInt("BookingAmount")
-                );
-                bookings.add(booking);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return bookings;
-    }
+	public static List<Booking> getBookingsByUser(int userID) {
+		List<Booking> bookings = new ArrayList<>();
+		String sql = "SELECT * FROM Booking WHERE UserID = ?";
+
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setInt(1, userID);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Booking booking = new Booking(rs.getInt("BookingID"), rs.getInt("FlightID"), rs.getInt("UserID"),
+						rs.getInt("NoOfSeats"), rs.getString("SeatCategory"), rs.getString("DateOfTravel"),
+						rs.getString("BookingStatus"), rs.getInt("BookingAmount"));
+				bookings.add(booking);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bookings;
+	}
 }
