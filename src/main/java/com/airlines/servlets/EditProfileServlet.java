@@ -20,20 +20,26 @@ public class EditProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userID = Integer.parseInt(request.getParameter("userID"));
+        HttpSession session = request.getSession();
+        Integer userID = (Integer) session.getAttribute("userID");
+
+        if (userID == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         String userName = request.getParameter("userName");
         String emailId = request.getParameter("emailId");
         long phone = Long.parseLong(request.getParameter("phone"));
+        String address = request.getParameter("address");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        int zipCode = Integer.parseInt(request.getParameter("zipCode"));
 
-        User user = new User();
-        user.setUserID(userID);
-        user.setUserName(userName);
-        user.setEmailId(emailId);
-        user.setPhone(phone);
+        User user = new User(userID, userName, emailId, phone, address, city, state, zipCode);
 
         boolean updated = UserDAO.updateProfile(user);
 
-        HttpSession session = request.getSession();
         if (updated) {
             session.setAttribute("user", user);
             response.sendRedirect("profile.jsp?message=Profile Updated Successfully");

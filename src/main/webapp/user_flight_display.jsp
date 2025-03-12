@@ -42,6 +42,7 @@
             <td><%= flight.getEconomySeats() %></td>
             <td><%= flight.getBusinessSeats() %></td>
             <td><%= flight.getExecutiveSeats() %></td>
+            
         </tr>
         <%
             }

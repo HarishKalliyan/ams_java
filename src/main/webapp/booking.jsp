@@ -1,6 +1,7 @@
-<%@ page import="java.util.List, com.airlines.beans.Flight, com.airlines.dao.FlightDAO" %>
+<%@ page import="java.util.List, com.airlines.beans.Flight, com.airlines.dao.FlightDAO, java.time.LocalDate" %>
 <%@ include file="user_header.jsp" %>
 <%@ include file="user_menu.jsp" %>
+
 <html>
 <head>
     <title>Book a Ticket</title>
@@ -29,29 +30,34 @@
         button:hover {
             background: darkblue;
         }
-        
-        
-#backButton {
-  position: fixed;
-  bottom: 60px;
-  right: 20px;
-  background-color: crimson;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
-#backButton:hover {
-  background-color: darkred;
-}
+        #backButton {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            background-color: crimson;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #backButton:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Book Your Flight</h2>
+
+        <%
+            // Get the current date in "YYYY-MM-DD" format using Java (No JavaScript)
+            LocalDate today = LocalDate.now();
+        %>
+
         <form action="BookingServlet" method="post">
             <label for="flightID">Select Flight:</label>
             <select name="flightID" required>
@@ -80,14 +86,14 @@
             <br>
 
             <label for="dateOfTravel">Date of Travel:</label>
-            <input type="date" name="dateOfTravel" required>
+            <!-- Using Java's LocalDate to set the min date -->
+            <input type="date" name="dateOfTravel" min="<%= today %>" required>
             <br>
 
             <button type="submit">Book Ticket</button>
         </form>
     </div>
-    <button id="backButton" onclick="history.back()" 	>Back</button>
-	
+    <button id="backButton" onclick="history.back()">Back</button>
 </body>
 <%@ include file="user_footer.jsp" %>
 </html>

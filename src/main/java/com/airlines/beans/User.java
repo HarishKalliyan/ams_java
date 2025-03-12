@@ -15,6 +15,15 @@ public class User {
 	private long zipCode;
 	private String dob;
 
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(Integer userID2, String userName2, String emailId2, long phone2, String address2, String city2,
+			String state2, int zipCode2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	// Getters and Setters
 	public int getUserID() {
 		return userID;

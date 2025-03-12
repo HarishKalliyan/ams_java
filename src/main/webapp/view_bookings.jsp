@@ -32,6 +32,18 @@ tr:hover {
 	background-color: #f1f1f1;
 }
 
+.delete , .edit{
+	width: 80px;
+	text-align: center;
+	padding-right: 100px;
+	font-weight: bold;
+}
+
+.delete:hover{
+	background-color: maroon;
+	
+}
+
 .no-data {
 	text-align: center;
 	font-size: 18px;
@@ -70,32 +82,45 @@ tr:hover {
         if (bookings != null && !bookings.isEmpty()) {
     %>
 
-	<table>
-		<tr>
-			<th>Booking ID</th>
-			<th>Flight ID</th>
-			<th>No. of Seats</th>
-			<th>Seat Category</th>
-			<th>Date of Travel</th>
-			<th>Booking Status</th>
-			<th>Amount ($)</th>
-		</tr>
-		<%
-            for (Booking booking : bookings) {
-        %>
-		<tr>
-			<td><%= booking.getBookingID() %></td>
-			<td><%= booking.getFlightID() %></td>
-			<td><%= booking.getNoOfSeats() %></td>
-			<td><%= booking.getSeatCategory() %></td>
-			<td><%= booking.getDateOfTravel() %></td>
-			<td><%= booking.getBookingStatus() %></td>
-			<td>$<%= booking.getBookingAmount() %></td>
-		</tr>
-		<%
-            }
-        %>
-	</table>
+<table>
+    <tr>
+        <th>Booking ID</th>
+        <th>Flight ID</th>
+        <th>No. of Seats</th>
+        <th>Seat Category</th>
+        <th>Date of Travel</th>
+        <th>Booking Status</th>
+        <th>Amount ($)</th>
+        <th>Actions</th>
+    </tr>
+    <%
+        for (Booking booking : bookings) {
+    %>
+    <tr>
+        <td><%= booking.getBookingID() %></td>
+        <td><%= booking.getFlightID() %></td>
+        <td><%= booking.getNoOfSeats() %></td>
+        <td><%= booking.getSeatCategory() %></td>
+        <td><%= booking.getDateOfTravel() %></td>
+        <td><%= booking.getBookingStatus() %></td>
+        <td>$<%= booking.getBookingAmount() %></td>
+        <td>
+            <a  href="edit_booking.jsp?bookingID=<%= booking.getBookingID() %>">
+                <button class="edit">Edit</button>
+            </a>
+            <br>
+            
+            <a href="DeleteBookingServlet?bookingID=<%= booking.getBookingID() %>" 
+               onclick="return confirm('Are you sure you want to delete this booking?');">
+                <button class="delete"style="background: red;">Delete</button>
+            </a>
+        </td>
+    </tr>
+    <%
+        }
+    %>
+</table>
+
 
 	<% } else { %>
 	<p class="no-data">No bookings found.</p>

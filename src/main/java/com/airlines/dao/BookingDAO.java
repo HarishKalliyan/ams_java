@@ -43,8 +43,7 @@ public class BookingDAO {
 			return false; // Prevents inserting invalid data
 		}
 
-		String sql = "INSERT INTO Booking (FlightID, UserID, NoOfSeats, SeatCategory, DateOfTravel, BookingStatus, BookingAmount) "
-				+ "VALUES (?, ?, ?, ?, ?, 'Booked', ?)";
+		String sql = "INSERT INTO Booking (FlightID, UserID, NoOfSeats, SeatCategory, DateOfTravel, BookingStatus, BookingAmount) VALUES (?, ?, ?, ?, ?, 'Booked', ?)";
 
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -54,7 +53,9 @@ public class BookingDAO {
 			pstmt.setString(4, seatCategory);
 			pstmt.setString(5, dateOfTravel);
 			pstmt.setInt(6, bookingAmount);
-
+			
+			System.out.println(flightID+" "+userID+" "+noOfSeats+" "+seatCategory+" "+dateOfTravel+" " +bookingAmount);
+			
 			int rowsInserted = pstmt.executeUpdate();
 			return rowsInserted > 0;
 		} catch (SQLException e) {
@@ -83,4 +84,66 @@ public class BookingDAO {
 		}
 		return bookings;
 	}
+
+	public static Booking getBookingByID(int bookingID) {
+	    Booking booking = null;
+	    String sql = "SELECT * FROM Booking WHERE BookingID = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setInt(1, bookingID);
+	        ResultSet rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            booking = new Booking(
+	                rs.getInt("BookingID"),
+	                rs.getInt("FlightID"),
+	                rs.getInt("UserID"),
+	                rs.getInt("NoOfSeats"),
+	                rs.getString("SeatCategory"),
+	                rs.getString("DateOfTravel"),
+	                rs.getString("BookingStatus"),
+	                rs.getInt("BookingAmount")
+	            );
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return booking;
+	}
+
+	public static boolean updateBooking(int bookingID, int noOfSeats, String seatCategory, String dateOfTravel) {
+	    String sql = "UPDATE Booking SET NoOfSeats = ?, SeatCategory = ?, DateOfTravel = ? WHERE BookingID = ?";
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setInt(1, noOfSeats);
+	        pstmt.setString(2, seatCategory);
+	        pstmt.setString(3, dateOfTravel);
+	        pstmt.setInt(4, bookingID);
+
+	        int rowsUpdated = pstmt.executeUpdate();
+	        return rowsUpdated > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
+	public static boolean deleteBooking(int bookingID) {
+	    String sql = "DELETE FROM Booking WHERE BookingID = ?";
+	    
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setInt(1, bookingID);
+	        
+	        int rowsDeleted = pstmt.executeUpdate();
+	        return rowsDeleted > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
+
 }

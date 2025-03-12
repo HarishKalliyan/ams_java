@@ -76,6 +76,9 @@ CREATE TABLE Flights (
 select * from Carriers;
 
 
+
+
+
 SELECT sqlite_version();
 
 INSERT INTO Carriers (CarrierID, CarrierName, Discount30Days, Discount60Days, Discount90Days, BulkBookingDiscount, 
@@ -104,7 +107,7 @@ VALUES (6, 'Singapore Airlines', 5, 10, 15, 3, 50, 70, 90, 2, 3, 5);
 
 
 select * from Flights;
-z
+
 
 INSERT INTO Flights (FlightID, CarrierID, Origin, Destination, AirFare, EconomySeats, BusinessSeats, ExecutiveSeats) 
 VALUES (101, 1, 'New York', 'Dubai', 800, 50, 20, 10);
@@ -144,10 +147,33 @@ CREATE TABLE Booking (
     UserID INTEGER NOT NULL,
     NoOfSeats INTEGER NOT NULL,
     SeatCategory TEXT CHECK (SeatCategory IN ('Economy', 'Executive', 'Business')) NOT NULL,
-    DateOfTravel DATE NOT NULL,
+    DateOfTravel TEXT NOT NULL,
     BookingStatus TEXT CHECK (BookingStatus IN ('Booked', 'Travel Completed', 'Cancelled')) NOT NULL DEFAULT 'Booked',
     BookingAmount INTEGER NOT NULL,
     FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+
+PRAGMA foreign_keys=ON;
+
+INSERT INTO Booking (BookingID,FlightID, UserID, NoOfSeats, SeatCategory, DateOfTravel, BookingStatus, BookingAmount) VALUES (10001,107, 10004, 5, 'Economy', '2025-03-20', 'Booked', 2000);
+
+select * from Booking;
+
+drop table Booking;
+
+INSERT INTO Booking (FlightID, UserID, NoOfSeats, SeatCategory, DateOfTravel, BookingStatus, BookingAmount)  
+VALUES (107, 10004, 2, 'Economy', '2025-03-20', 'Booked', 800);
+
+
+SELECT * FROM Flights WHERE FlightID = 107;
+SELECT * FROM Users WHERE UserID = 10004;
+
+
+PRAGMA table_info(Booking);
+PRAGMA foreign_key_list(Booking);
+
+PRAGMA foreign_keys = ON;
+PRAGMA foreign_key_check;
+
 
