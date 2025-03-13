@@ -20,7 +20,7 @@ public class LoginPageServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         UserDAO userDAO = new UserDAO();
-        String userName = userDAO.getUserName(userID, password);
+		String userName = userDAO.getUserName(userID, password); 
         String role = userDAO.validateUser(userID, password);
 
         if (role != null) {
@@ -29,13 +29,22 @@ public class LoginPageServlet extends HttpServlet {
             session.setAttribute("userName", userName);
             session.setAttribute("role", role);
 
+            request.setAttribute("message", "Login Successful!");
+            request.setAttribute("messageType", "success");
+
+            // Redirect based on role
             if (role.equals("Admin")) {
-                response.sendRedirect("admin_home.jsp");
+                request.setAttribute("redirectPage", "admin_home.jsp");
             } else {
-                response.sendRedirect("user_home.jsp");
+                request.setAttribute("redirectPage", "user_home.jsp");
             }
+
+            request.getRequestDispatcher("popup.jsp").forward(request, response);
         } else {
-            response.sendRedirect("register.jsp");
+            request.setAttribute("message", "Invalid User ID or Password!");
+            request.setAttribute("messageType", "error");
+            request.setAttribute("redirectPage", "login.jsp");
+            request.getRequestDispatcher("popup.jsp").forward(request, response);
         }
     }
 }

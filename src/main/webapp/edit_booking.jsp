@@ -1,4 +1,6 @@
 <%@ page import="com.airlines.beans.Booking, com.airlines.dao.BookingDAO, java.time.LocalDate" %>
+<%@ include file="user_popup.jsp" %>
+ 
 <%
     int bookingID = Integer.parseInt(request.getParameter("bookingID"));
     Booking booking = BookingDAO.getBookingByID(bookingID);
@@ -11,6 +13,7 @@
 <head>
     <title>Edit Booking</title>
     <link rel="stylesheet" type="text/css" href="edit_booking.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
     <div class="edit-booking-container">
@@ -20,7 +23,7 @@
 
             <div class="input-group">
                 <label>Flight ID:</label>
-                <input type="text" value="<%= booking.getFlightID() %>" readonly>
+                <input type="text" name="flightID" value="<%= booking.getFlightID() %>" readonly>
             </div>
 
             <div class="input-group">

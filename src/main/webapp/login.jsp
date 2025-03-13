@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ include file="popup.jsp" %>
 <html>
 <head>
     <title>Login</title>
@@ -8,7 +10,7 @@
     response.setHeader("Pragma", "no-cache");
     response.setHeader("Expires", "0");
 %>
-    
+	<link rel="stylesheet" type="text/css" href="popup.css">
     <link rel="stylesheet" type="text/css" href="login.css">
     <script>
     window.onload = function () {
@@ -26,20 +28,18 @@
 </head>
 <body>
     <div class="login-container">
-
         <form action="LoginPageServlet" method="post">
             <label for="userID">User ID:</label>
             <input type="text" id="userID" name="userID" required>
-            <br>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <br>
 
-            <button type="submit" >Login</button>
+            <button type="submit">Login</button>
         </form>
-
-        <p>Don't have an account? <a href="register.jsp">Register Here</a></p>
+        
+    <p>Don't have an account? <a href="register.jsp">Register Here</a></p>
     </div>
+    
 </body>
 </html>

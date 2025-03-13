@@ -10,23 +10,27 @@ import com.airlines.dao.BookingDAO;
 
 @WebServlet("/EditBookingServlet")
 public class EditBookingServlet extends HttpServlet {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int bookingID = Integer.parseInt(request.getParameter("bookingID"));
         int noOfSeats = Integer.parseInt(request.getParameter("noOfSeats"));
+        int flightID = Integer.parseInt(request.getParameter("flightID"));
         String seatCategory = request.getParameter("seatCategory");
         String dateOfTravel = request.getParameter("dateOfTravel");
+        int bookingAmount = BookingDAO.calculateBookingAmount(flightID, seatCategory, noOfSeats);
 
-        boolean success = BookingDAO.updateBooking(bookingID, noOfSeats, seatCategory, dateOfTravel);
+        boolean success = BookingDAO.updateBooking(bookingID, bookingAmount, noOfSeats, seatCategory, dateOfTravel);
 
         if (success) {
-            response.sendRedirect("user_home.jsp?message=Booking Updated Successfully");
+            request.setAttribute("message", "Booking Updated Successfully!");
+            request.setAttribute("messageType", "success");
+            request.setAttribute("redirectPage", "user_home.jsp"); // Redirect to View Bookings page
         } else {
-            response.sendRedirect("edit_booking.jsp?bookingID=" + bookingID + "&error=Update Failed");
+            request.setAttribute("message", "Failed to Update Booking!");
+            request.setAttribute("messageType", "error");
+            request.setAttribute("redirectPage", "edit_booking.jsp?bookingID=" + bookingID); // Stay on edit page
         }
+        request.getRequestDispatcher("popup.jsp").forward(request, response);
     }
 }

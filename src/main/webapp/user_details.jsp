@@ -70,9 +70,9 @@
         <div class="info"><strong>ZipCode:</strong> <%= user.getZipCode() %></div>
         <div class="info"><strong>Date of Birth:</strong> <%= user.getDob() %></div>
 
-        <% if ("Customer".equals(user.getRole())) { %>
+       <%--  <% if ("Customer".equals(user.getRole())) { %>
             <div class="info"><strong>Customer Category:</strong> <%= user.getCustomerCategory() %></div>
-        <% } %>
+        <% } %> --%>
     </div>
     <button id="backButton" onclick="history.back()" 	>Back</button>
 </body>

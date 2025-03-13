@@ -66,7 +66,7 @@ public class BookingDAO {
 
 	public static List<Booking> getBookingsByUser(int userID) {
 		List<Booking> bookings = new ArrayList<>();
-		String sql = "SELECT * FROM Booking WHERE UserID = ?";
+		String sql = "SELECT * FROM Booking WHERE UserID = ? ORDER BY DateOfTravel DESC";
 
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -112,15 +112,16 @@ public class BookingDAO {
 	    return booking;
 	}
 
-	public static boolean updateBooking(int bookingID, int noOfSeats, String seatCategory, String dateOfTravel) {
-	    String sql = "UPDATE Booking SET NoOfSeats = ?, SeatCategory = ?, DateOfTravel = ? WHERE BookingID = ?";
+	public static boolean updateBooking(int bookingID, int bookingAmount,int noOfSeats, String seatCategory, String dateOfTravel) {
+	    String sql = "UPDATE Booking SET NoOfSeats = ?, SeatCategory = ?, DateOfTravel = ?, BookingAmount=? WHERE BookingID = ?";
 	    
 	    try (Connection conn = DatabaseConnection.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 	        pstmt.setInt(1, noOfSeats);
 	        pstmt.setString(2, seatCategory);
 	        pstmt.setString(3, dateOfTravel);
-	        pstmt.setInt(4, bookingID);
+	        pstmt.setInt(4,bookingAmount);
+	        pstmt.setInt(5, bookingID);
 
 	        int rowsUpdated = pstmt.executeUpdate();
 	        return rowsUpdated > 0;

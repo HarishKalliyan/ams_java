@@ -15,8 +15,8 @@ public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve form data
         String userName = request.getParameter("userName");
-        String password = userName.substring(0, 4) + "@123"; // Auto-generated password
         String role = request.getParameter("role"); // Capture role from form
         String customerCategory = role.equals("Customer") ? "" : null; // Only customers have categories
         
@@ -29,9 +29,9 @@ public class RegisterServlet extends HttpServlet {
         long zipCode = Long.parseLong(request.getParameter("zipCode"));
         String dob = request.getParameter("dob");
 
+        // Create User object
         User user = new User();
         user.setUserName(userName);
-        user.setUserPassword(password);
         user.setRole(role); // Store the selected role
         user.setCustomerCategory(customerCategory);
         user.setPhone(phone);
@@ -43,13 +43,17 @@ public class RegisterServlet extends HttpServlet {
         user.setZipCode(zipCode);
         user.setDob(dob);
 
+        // Register user and get UserID and Password
         UserDAO userDAO = new UserDAO();
-        boolean success = userDAO.registerUser(user);
+        String result = userDAO.registerUser(user); 
 
-        if (success) {
-            response.sendRedirect("login.jsp"); // Redirect to login page
+        if (result.startsWith("User Registered Successfully")) {
+            request.setAttribute("message", result);
+            request.setAttribute("messageType", "success");
         } else {
-            response.sendRedirect("register.jsp?error=Registration Failed");
+            request.setAttribute("message", "Registration Failed!");
+            request.setAttribute("messageType", "error");
         }
-    }
+        request.getRequestDispatcher("register.jsp").forward(request, response);
+    }    
 }

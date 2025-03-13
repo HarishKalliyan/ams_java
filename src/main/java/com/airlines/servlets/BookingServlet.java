@@ -1,7 +1,6 @@
 package com.airlines.servlets;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +12,9 @@ import com.airlines.dao.*;
 
 @WebServlet("/BookingServlet")
 public class BookingServlet extends HttpServlet {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer userID = (Integer) session.getAttribute("userID");
 
@@ -33,13 +29,17 @@ public class BookingServlet extends HttpServlet {
         String dateOfTravel = request.getParameter("dateOfTravel");
 
         int bookingAmount = BookingDAO.calculateBookingAmount(flightID, seatCategory, noOfSeats);
-
         boolean success = BookingDAO.insertBooking(flightID, userID, noOfSeats, seatCategory, dateOfTravel, bookingAmount);
 
         if (success) {
-            response.sendRedirect("user_home.jsp?message=Booking Successful");
+            request.setAttribute("message", "Flight Ticket Booked Successfully!");
+            request.setAttribute("messageType", "success");
+            request.setAttribute("redirectPage", "user_home.jsp"); // Redirect to View Bookings page
         } else {
-            response.sendRedirect("booking.jsp?error=Booking Failed");
+            request.setAttribute("message", "Failed to Book Ticket!");
+            request.setAttribute("messageType", "error");
+            request.setAttribute("redirectPage", "booking.jsp"); // Stay on booking page
         }
+        request.getRequestDispatcher("popup.jsp").forward(request, response);
     }
 }

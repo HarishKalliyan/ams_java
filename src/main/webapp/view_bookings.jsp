@@ -1,9 +1,13 @@
 <%@ page import="java.util.List, com.airlines.beans.Booking"%>
 <%@ include file="user_header.jsp"%>
 <%@ include file="user_menu.jsp"%>
+
+<%@ include file="popup.jsp" %>
+
 <html>
 <head>
 <title>My Bookings</title>
+<link rel="stylesheet" type="text/css" href="popup.css">
 <style>
 table {
 	width: 80%;
@@ -128,5 +132,6 @@ tr:hover {
 	<button id="backButton" onclick="history.back()" 	>Back</button>
 	
 </body>
+
 <%@ include file="user_footer.jsp"%>
 </html>

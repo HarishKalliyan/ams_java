@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+
+<%@ include file="registerpopup.jsp" %>
 <html>
 <head>
 <title>Register</title>
@@ -8,6 +10,7 @@
     response.setHeader("Pragma", "no-cache");
     response.setHeader("Expires", "0");
     %>
+    <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
 	<div class="register-container">
@@ -48,4 +51,5 @@
 		</p>
 	</div>
 </body>
+
 </html>

@@ -28,16 +28,20 @@ public class UserDAO {
         return role;
     }
 
-    public boolean registerUser(User user) {
+    public String registerUser(User user) {
         String sql = "INSERT INTO users (UserPassword, UserName, Role, CustomerCategory, Phone, EmailId, Address, City, State, Country, ZipCode, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        int generatedUserID = -1; // To store the newly generated UserID
+        String generatedPassword = user.getUserName().substring(0, Math.min(4, user.getUserName().length())) + "@123"; // Generate password
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             
-            pstmt.setString(1, user.getUserPassword());
+            // Set parameters for the INSERT query
+            pstmt.setString(1, generatedPassword);  // Use generated password
             pstmt.setString(2, user.getUserName());
-            pstmt.setString(3, user.getRole()); // Store role in DB
-            pstmt.setString(4, user.getCustomerCategory()); 
+            pstmt.setString(3, user.getRole());
+            pstmt.setString(4, user.getCustomerCategory());
             pstmt.setLong(5, user.getPhone());
             pstmt.setString(6, user.getEmailId());
             pstmt.setString(7, user.getAddress());
@@ -47,13 +51,21 @@ public class UserDAO {
             pstmt.setLong(11, user.getZipCode());
             pstmt.setString(12, user.getDob());
 
+            // Execute update and retrieve generated keys
             int rowsInserted = pstmt.executeUpdate();
-            return rowsInserted > 0;
+            if (rowsInserted > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        generatedUserID = rs.getInt(1);  // Retrieve the auto-incremented UserID
+                    }
+                }
+                return "User Registered Successfully!<br>User ID: " + generatedUserID + "<br>Password: " + generatedPassword;
+            }
             
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return "User registration failed.";
     }
 
     public static User getUserByID(int userID) {

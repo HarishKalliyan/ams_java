@@ -10,20 +10,22 @@ import com.airlines.dao.BookingDAO;
 
 @WebServlet("/DeleteBookingServlet")
 public class DeleteBookingServlet extends HttpServlet {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int bookingID = Integer.parseInt(request.getParameter("bookingID"));
 
         boolean success = BookingDAO.deleteBooking(bookingID);
 
         if (success) {
-            response.sendRedirect("user_home.jsp?message=Booking Deleted Successfully");
+            request.setAttribute("message", "Booking Deleted Successfully!");
+            request.setAttribute("messageType", "success");
+            request.setAttribute("redirectPage", "user_home.jsp"); // Redirect back to bookings page
         } else {
-            response.sendRedirect("view_bookings.jsp?error=Deletion Failed");
+            request.setAttribute("message", "Failed to Delete Booking!");
+            request.setAttribute("messageType", "error");
+            request.setAttribute("redirectPage", "user_home.jsp"); // Stay on bookings page
         }
+        request.getRequestDispatcher("popup.jsp").forward(request, response);
     }
 }

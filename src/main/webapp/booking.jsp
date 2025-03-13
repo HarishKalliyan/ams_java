@@ -2,6 +2,7 @@
 <%@ include file="user_header.jsp" %>
 <%@ include file="user_menu.jsp" %>
 
+<%@ include file="user_popup.jsp" %>
 <html>
 <head>
     <title>Book a Ticket</title>
@@ -48,6 +49,7 @@
             background-color: darkred;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
     <div class="container">
