@@ -25,7 +25,19 @@ public class Flight {
     // Default Constructor
     public Flight() {}
 
-    // Getters and Setters
+    public Flight(int flightID, String origin, String destination, int airFare, int economySeats, int businessSeats,
+			int executiveSeats) {
+		super();
+		this.flightID = flightID;
+		this.origin = origin;
+		this.destination = destination;
+		this.airFare = airFare;
+		this.economySeats = economySeats;
+		this.businessSeats = businessSeats;
+		this.executiveSeats = executiveSeats;
+	}
+
+	// Getters and Setters
     public int getFlightID() { return flightID; }
     public void setFlightID(int flightID) { this.flightID = flightID; }
 

@@ -51,20 +51,47 @@ public class FlightDAO {
             return false;
         }
     }
+    
+    public static Flight getFlightById(int flightID) {
+        Flight flight = null;
+        try (Connection con = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM Flights WHERE FlightID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, flightID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                flight = new Flight(
+                    rs.getInt("FlightID"),
+                    rs.getInt("CarrierID"),
+                    rs.getString("Origin"),
+                    rs.getString("Destination"),
+                    rs.getInt("AirFare"),
+                    rs.getInt("EconomySeats"),
+                    rs.getInt("BusinessSeats"),
+                    rs.getInt("ExecutiveSeats")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flight;
+    }
+
 
     // Update flight
     public static boolean updateFlight(Flight flight) {
         try (Connection con = DatabaseConnection.getConnection()) {
-            String query = "UPDATE Flights SET CarrierID=?, Origin=?, Destination=?, AirFare=?, EconomySeats=?, BusinessSeats=?, ExecutiveSeats=? WHERE FlightID=?";
+            String query = "UPDATE Flights SET  Origin=?, Destination=?, AirFare=?, EconomySeats=?, BusinessSeats=?, ExecutiveSeats=? WHERE FlightID=?";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, flight.getCarrierID());
-            ps.setString(2, flight.getOrigin());
-            ps.setString(3, flight.getDestination());
-            ps.setInt(4, flight.getAirFare());
-            ps.setInt(5, flight.getEconomySeats());
-            ps.setInt(6, flight.getBusinessSeats());
-            ps.setInt(7, flight.getExecutiveSeats());
-            ps.setInt(8, flight.getFlightID());
+            
+            ps.setString(1, flight.getOrigin());
+            ps.setString(2, flight.getDestination());
+            ps.setInt(3, flight.getAirFare());
+            ps.setInt(4, flight.getEconomySeats());
+            ps.setInt(5, flight.getBusinessSeats());
+            ps.setInt(6, flight.getExecutiveSeats());
+            ps.setInt(7, flight.getFlightID());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();

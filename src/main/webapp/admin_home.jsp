@@ -65,7 +65,7 @@ button:hover {
 		<h2>Welcome, Admin</h2>
 
 		<div id="search-section">
-			<form action="FlightServlet" method="get">
+			<form action="view_flights.jsp">
 				<button type="submit">Get Flight Details</button>
 			</form>
 			<form action="add_flights.jsp">
