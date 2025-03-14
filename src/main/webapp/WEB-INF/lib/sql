@@ -1,17 +1,3 @@
-CREATE TABLE users (
-    UserID INTEGER PRIMARY KEY AUTOINCREMENT CHECK (UserID >= 10000), 
-    UserPassword TEXT NOT NULL,
-    UserName TEXT NOT NULL,
-    Role TEXT CHECK (Role IN ('Admin', 'Customer')) NOT NULL,
-    CustomerCategory TEXT CHECK (CustomerCategory IN ('Silver', 'Gold', 'Platinum', '')) DEFAULT '',
-    Phone INTEGER,
-    EmailId TEXT,
-    City TEXT,
-    State TEXT,
-    Country TEXT,
-    ZipCode INTEGER,
-    DOB TEXT
-);
 
 INSERT INTO users (UserID, UserPassword, UserName, Role, CustomerCategory) 
 VALUES (10001, 'admin123', 'Admin User', 'Admin', '');

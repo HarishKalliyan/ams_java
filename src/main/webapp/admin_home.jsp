@@ -1,5 +1,8 @@
+
 <%@ include file="header.jsp"%>
+
 <%@ include file="admin_menu.jsp"%>
+
 <html>
 <head>
 <%
@@ -26,6 +29,7 @@ button {
 	color: white;
 	padding: 12px 20px;
 	border: none;
+	width: 20%;
 	border-radius: 5px;
 	font-size: 18px;
 	cursor: pointer;
@@ -41,6 +45,7 @@ button:hover {
   position: fixed;
   bottom: 60px;
   right: 20px;
+  width: 5%;
   background-color: crimson;
   color: white;
   padding: 10px 20px;
@@ -63,6 +68,16 @@ button:hover {
 			<form action="FlightServlet" method="get">
 				<button type="submit">Get Flight Details</button>
 			</form>
+			<form action="add_flights.jsp">
+			<button type="submit" id='addflights'>Add Flight</button>
+			</form>
+			<form action="add_carrier.jsp">
+			<button type="submit" id='addcarriers'>Add Carrier</button>
+			</form>
+			<form action="CarrierServlet">
+			<button type="submit" id='viewcarrier'>View Carriers</button>
+			</form>
+			
 		</div>
 	</div>
 	<button id="backButton" onclick="history.back()" >Back</button>
@@ -71,3 +86,5 @@ button:hover {
 
 <%@ include file="footer.jsp"%>
 </html>
+
+
