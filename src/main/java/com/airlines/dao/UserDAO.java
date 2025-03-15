@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import com.airlines.beans.User;
 
 public class UserDAO {
-    public String validateUser(int userID, String password) {
+    public String validateUserRole(int userID, String password) {
         String role = null;
         String sql = "SELECT Role FROM users WHERE UserID = ? AND UserPassword = ?";
         
@@ -27,6 +27,22 @@ public class UserDAO {
         }
         return role;
     }
+    
+    public boolean validateUser(int userID, String encryptedPassword) {
+        try (Connection con = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM users WHERE UserID = ? AND UserPassword = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, userID);
+            ps.setString(2, encryptedPassword); // Compare with encrypted password
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // Returns true if credentials match
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     public String registerUser(User user) {
         String sql = "INSERT INTO users (UserPassword, UserName, Role, CustomerCategory, Phone, EmailId, Address, City, State, Country, ZipCode, DOB) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

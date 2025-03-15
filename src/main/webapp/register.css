@@ -32,7 +32,7 @@ select {
   border: none;
   border-radius: 5px;
   font-size: 16px;
-  background-color: white;
+  background-color: rgba(255, 234, 196, 0.767);
   color: black;
   appearance: none; /* Removes default browser styles */
   cursor: pointer;
@@ -54,7 +54,7 @@ select:after {
 select:hover,
 select:focus {
   border: 2px solid dodgerblue;
-  background-color: #f0f0f0;
+  background-color: rgba(255, 234, 196, 0.767);;
 }
 
 
@@ -70,7 +70,7 @@ select:focus {
     color: black;
 }
 h2{
-    color: whitesmoke;
+    color: black;
 }
 
 label{

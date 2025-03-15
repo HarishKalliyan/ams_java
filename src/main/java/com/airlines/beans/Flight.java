@@ -5,12 +5,25 @@ public class Flight {
     private int carrierID;
     private String origin;
     private String destination;
+    private String carrierName;
     private int airFare;
-    private int economySeats;
+	private int economySeats;
     private int businessSeats;
     private int executiveSeats;
 
     // Constructor
+    public Flight(int flightID, int carrierID, String origin, String destination, int airFare, int economySeats, int businessSeats, int executiveSeats, String carrierName) {
+        this.flightID = flightID;
+        this.carrierID = carrierID;
+        this.origin = origin;
+        this.destination = destination;
+        this.airFare = airFare;
+        this.economySeats = economySeats;
+        this.businessSeats = businessSeats;
+        this.executiveSeats = executiveSeats;
+        this.carrierName = carrierName;
+    }
+    
     public Flight(int flightID, int carrierID, String origin, String destination, int airFare, int economySeats, int businessSeats, int executiveSeats) {
         this.flightID = flightID;
         this.carrierID = carrierID;
@@ -20,7 +33,9 @@ public class Flight {
         this.economySeats = economySeats;
         this.businessSeats = businessSeats;
         this.executiveSeats = executiveSeats;
+        
     }
+    
 
     // Default Constructor
     public Flight() {}
@@ -61,4 +76,14 @@ public class Flight {
 
     public int getExecutiveSeats() { return executiveSeats; }
     public void setExecutiveSeats(int executiveSeats) { this.executiveSeats = executiveSeats; }
+    
+    
+    
+    public String getCarrierName() {
+		return carrierName;
+	}
+
+	public void setCarrierName(String carrierName) {
+		this.carrierName = carrierName;
+	}
 }

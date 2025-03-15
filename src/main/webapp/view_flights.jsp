@@ -40,6 +40,7 @@ style</style>
     <table border="1" style="margin-bottom: 130px; width:90%;">
         <tr id="header-back" style="background: #007bff;">
             <th>Flight ID</th>
+            <th>Carrier ID</th>
             <th>Carrier Name</th>
             <th>Origin</th>
             <th>Destination</th>
@@ -53,9 +54,11 @@ style</style>
             List<Flight> flights = FlightDAO.getAllFlights();
             for (Flight flight : flights) { 
         %>
+        
         <tr>
             <td><%= flight.getFlightID() %></td>
             <td><%= flight.getCarrierID() %></td>
+            <td><%= flight.getCarrierName() %></td>
             <td><%= flight.getOrigin() %></td>
             <td><%= flight.getDestination() %></td>
             <td><%= flight.getAirFare() %></td>

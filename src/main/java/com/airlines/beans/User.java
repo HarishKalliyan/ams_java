@@ -1,5 +1,7 @@
 package com.airlines.beans;
 
+import com.airlines.services.UserService;
+
 public class User {
 	private int userID;
 	private String userPassword;
@@ -33,13 +35,13 @@ public class User {
 		this.userID = userID;
 	}
 
-	public String getUserPassword() {
-		return userPassword;
-	}
-
 	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
+        this.userPassword = userPassword; // Encrypt before setting
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
 
 	public String getUserName() {
 		return userName;

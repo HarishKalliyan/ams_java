@@ -8,30 +8,32 @@ import com.airlines.beans.Flight;
 public class FlightDAO {
 
     // Get all flights
-    public static List<Flight> getAllFlights() {
-        List<Flight> flights = new ArrayList<>();
-        try (Connection con = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM Flights";
-            PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+	public static List<Flight> getAllFlights() {
+	    List<Flight> flights = new ArrayList<>();
+	    try (Connection con = DatabaseConnection.getConnection()) {
+	        String query = "SELECT f.*, c.CarrierName FROM Flights f INNER JOIN Carriers c ON f.CarrierID = c.CarrierID";
+	        PreparedStatement ps = con.prepareStatement(query);
+	        ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                flights.add(new Flight(
-                    rs.getInt("FlightID"),
-                    rs.getInt("CarrierID"),
-                    rs.getString("Origin"),
-                    rs.getString("Destination"),
-                    rs.getInt("AirFare"),
-                    rs.getInt("EconomySeats"),
-                    rs.getInt("BusinessSeats"),
-                    rs.getInt("ExecutiveSeats")
-                ));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return flights;
-    }
+	        while (rs.next()) {
+	            flights.add(new Flight(
+	                rs.getInt("FlightID"),
+	                rs.getInt("CarrierID"),
+	                rs.getString("Origin"),
+	                rs.getString("Destination"),
+	                rs.getInt("AirFare"),
+	                rs.getInt("EconomySeats"),
+	                rs.getInt("BusinessSeats"),
+	                rs.getInt("ExecutiveSeats"),
+	                rs.getString("CarrierName")  // New field for Carrier Name
+	            ));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return flights;
+	}
+
 
     // Insert a new flight
     public static boolean addFlight(Flight flight) {

@@ -21,10 +21,11 @@ public class LoginPageServlet extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
 		String userName = userDAO.getUserName(userID, password); 
-        String role = userDAO.validateUser(userID, password);
+        String role = userDAO.validateUserRole(userID, password);
 
         if (role != null) {
-            HttpSession session = request.getSession();
+        	HttpSession session = request.getSession();
+        	session.setMaxInactiveInterval(180); // 3 minutes timeout
             session.setAttribute("userID", userID);
             session.setAttribute("userName", userName);
             session.setAttribute("role", role);
@@ -48,3 +49,7 @@ public class LoginPageServlet extends HttpServlet {
         }
     }
 }
+
+
+
+

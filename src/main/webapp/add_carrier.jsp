@@ -15,7 +15,9 @@
             <!-- Carrier Name -->
             <label for="CarrierName">Carrier Name:</label>
             <input type="text" id="CarrierName" name="CarrierName" maxlength="50" required/><br/>
-          
+          	
+          	
+          	<h3>Discount Percentage</h3><hr>
             <label for="Days30AdvanceBooking">30 Days Advance Booking:</label>
             <input type="number" id="Days30AdvanceBooking" name="Days30AdvanceBooking" required/><br/>
             
@@ -37,7 +39,7 @@
             <label for="PlatinumUser">Platinum User:</label>
             <input type="number" id="PlatinumUser" name="PlatinumUser" required/><br/>
             
- 
+ 			<h3>Refund Percentage</h3><hr>
             <label for="Days2BeforeTravelDate">2 Days Before Travel Date:</label>
             <input type="number" id="Days2BeforeTravelDate" name="Days2BeforeTravelDate" required/><br/>
             

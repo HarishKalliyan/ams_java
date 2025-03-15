@@ -1,4 +1,11 @@
 <%@ page session="true" %>
+<%
+    if (session.getAttribute("userID") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
+
 <html>
 <head>
     <title>Header</title>

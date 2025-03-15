@@ -23,18 +23,20 @@ public class RegisterServlet extends HttpServlet {
         String emailId = request.getParameter("emailId").trim();
         String dob = request.getParameter("dob").trim();
         String role = request.getParameter("role");
-        String customerCategory = role.equals("Customer") ? "" : null; // Only customers have categories
-        long phone = Long.parseLong(request.getParameter("phone"));
+        String customerCategory = role.equals("Customer") ? "" : null;
+        String phone = request.getParameter("phone").trim(); // Store as String for validation
         String address = request.getParameter("address");
         String city = request.getParameter("city");
         String state = request.getParameter("state");
         String country = request.getParameter("country");
-        long zipCode = Long.parseLong(request.getParameter("zipCode"));
-       
-     // Validation Patterns
-        Pattern usernamePattern = Pattern.compile("^[A-Za-z ]+$"); // Only alphabets & spaces
-        Pattern emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"); // Email format
-        Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=])[^\\s]{8,}$"); // At least 1 uppercase, 1 lowercase, 1 special char, no spaces, min 8 chars
+        String zipCode = request.getParameter("zipCode").trim(); // Store as String for validation
+
+        // Validation Patterns
+        Pattern usernamePattern = Pattern.compile("^[A-Za-z ]+$");
+        Pattern emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=])[^\\s]{8,}$");
+        Pattern phonePattern = Pattern.compile("^[0-9]{10}$"); // Ensures exactly 10 digits
+        Pattern zipPattern = Pattern.compile("^[0-9]{5,10}$"); // Ensures valid zip code (5-10 digits)
 
         // Validate Username (Only alphabets)
         if (!usernamePattern.matcher(userName).matches()) {
@@ -72,13 +74,13 @@ public class RegisterServlet extends HttpServlet {
         user.setRole(role); // Store the selected role
         user.setUserPassword(password);
         user.setCustomerCategory(customerCategory);
-        user.setPhone(phone);
+        user.setPhone(Long.parseLong(phone)); 
         user.setEmailId(emailId);
         user.setAddress(address);
         user.setCity(city);
         user.setState(state);
         user.setCountry(country);
-        user.setZipCode(zipCode);
+        user.setZipCode(Long.parseLong(zipCode)); // Convert to long
         user.setDob(dob);
 
         // Register user and get UserID and Password
@@ -95,5 +97,4 @@ public class RegisterServlet extends HttpServlet {
         request.getRequestDispatcher("register.jsp").forward(request, response);
     }    
 }
-
 
